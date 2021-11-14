@@ -1,0 +1,5 @@
+<app-navbar></app-navbar>
+
+<app-start-game *ngIf="service.gameState === 0"></app-start-game>
+
+<app-gameboard *ngIf="service.gameState === 1"></app-gameboard>

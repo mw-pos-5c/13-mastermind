@@ -1,0 +1,29 @@
+
+<div class="container">
+  <div class="row">
+    <form [formGroup]="formGroup">
+      <h3>Start a new game</h3>
+      <div class="col">
+        <div class="mb-3">
+          <label for="nameInput" class="form-label">Your name:</label>
+          <input type="text" class="form-control" id="nameInput" formControlName="name">
+          <div class="form-text">Enter your name</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label for="triesInput" class="form-label">Maximum number of tires (6 - 12)</label>
+          <input type="number" class="form-control" id="triesInput" formControlName="tries">
+          <div class="form-text">Enter the maximum number of tries to guess the color pattern</div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <button [disabled]="!formGroup.valid" (click)="startGame()" class="btn btn-primary">Start new game</button>
+  </div>
+</div>
+
+
+

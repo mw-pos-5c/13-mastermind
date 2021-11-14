@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+    <div class="col me-2 color" *ngFor="let x of colors; let i = index" [style.background-color]="x">
+      <div class="dropdown" *ngIf="interactive && x.length == 0">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown">
+          Choose a color
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <div *ngFor="let color of availableColors"
+                 (click)="select(i, color)"
+                 class="dropdown-item">
+              {{color}}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col">
+      <button *ngIf="interactive" [disabled]="!ready" (click)="submit()" class="btn btn-primary">Submit attempt</button>
+    </div>
+  </div>
+</div>
