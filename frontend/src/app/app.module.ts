@@ -8,7 +8,9 @@ import { ShowLogsComponent } from './components/show-logs/show-logs.component';
 import { GameboardComponent } from './components/gameboard/gameboard.component';
 import { AttemptComponent } from './components/attempt/attempt.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpInterceptor} from "./interceptors/http.interceptor";
+import { RequestFilterPipe } from './pipes/request-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import {HttpClientModule} from "@angular/common/http";
     StartGameComponent,
     ShowLogsComponent,
     GameboardComponent,
-    AttemptComponent
+    AttemptComponent,
+    RequestFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,9 @@ import {HttpClientModule} from "@angular/common/http";
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,12 +7,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Start new game</a>
+          <a (click)="reset()" class="nav-link active" href="#">Start new game</a>
         </li>
       </ul>
 
       <form class="d-flex">
-        <button class="btn btn-primary me-2">Show logs</button>
+        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Show logs</button>
         <input class="me-2" type="text" placeholder="game id">
         <button class="btn btn-outline-success" type="submit">Resume existing game</button>
       </form>

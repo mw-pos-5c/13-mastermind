@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MastermindService} from "../../services/mastermind.service";
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: MastermindService) { }
+
 
   ngOnInit(): void {
+
   }
 
+  reset() {
+    this.service.gameHistory = [];
+    this.service.gameState = 0;
+  }
 }

@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import NewGameResponse from "../models/NewGameResponse";
+import HistoryAttempt from "../models/HistoryAttempt";
+import SubmitResponse from "../models/SubmitResponse";
+import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -12,28 +15,43 @@ export class MastermindService {
 
   private url = 'http://localhost:5000/game/';
 
+  onHttpRequest = new Subject<string>();
+
   gameState: number = 0;
 
   gameId: string | null = null;
   gameName: string | null = null;
   gameColors: string[] = [];
+  gameTries: number = 12;
 
-  gameHistory: string[][] = [];
+  gameHistory: HistoryAttempt[] = [];
 
   startGame(name: string, tries: number) {
     this.http.post<NewGameResponse>(this.url + 'start', {name, tries}).subscribe(value => {
       this.gameState = 1;
       this.gameId = value.gameId;
       this.gameName = name;
+      this.gameTries = tries;
     });
 
     this.getAvailableColors();
   }
 
   submitColors(colors: string[]) {
-    this.http.post(this.url + 'submit', {gameId: this.gameId, colors}).subscribe(value => {
-      console.log(value);
-      this.gameHistory.push([...colors]);
+    this.http.post<SubmitResponse>(this.url + 'submit', {gameId: this.gameId, colors}).subscribe(value => {
+
+      if (value.correct === 4) {
+        this.gameState = 2
+      } else if (this.gameTries-this.gameHistory.length === 1) {
+        this.gameState = 3;
+      }
+
+      const entry: HistoryAttempt = {
+        ...value,
+        colors
+      };
+
+      this.gameHistory.push(entry);
     });
   }
 

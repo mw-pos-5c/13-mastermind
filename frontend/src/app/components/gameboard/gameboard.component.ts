@@ -14,7 +14,6 @@ export class GameboardComponent implements OnInit {
   }
 
   colorSelected(colors: string[]) {
-    console.log(colors);
     this.service.submitColors(colors);
   }
 }

@@ -10,16 +10,17 @@ namespace Mastermind
     public class GameBoard
     {
         public static readonly string[] AvailableColors = new[] {"green", "yellow", "blue", "red", "orange", "black"};
-        
+
         public string Id { get; }
         public string Name { get; }
         public int TriesLeft { get; private set; }
         public int CorrectColors { get; private set; }
         public int Correct { get; private set; }
 
-        public List<string[]> History { get; } = new();
-        
+        public List<GuessAttempt> History { get; } = new();
+
         private readonly string[] solution;
+
         public GameBoard(string id, string name, int triesLeft)
         {
             Id = id;
@@ -51,14 +52,19 @@ namespace Mastermind
                     Correct++;
                     continue;
                 }
-                
+
                 if (solution.Contains(guess[x]))
                 {
                     CorrectColors++;
                 }
             }
-            
-            History.Add(guess);
+
+            History.Add(new GuessAttempt
+            {
+                Colors = guess,
+                Correct = Correct,
+                CorrectColor = CorrectColors
+            });
         }
     }
 }

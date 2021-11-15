@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MastermindService} from "../../services/mastermind.service";
 
 @Component({
   selector: 'app-show-logs',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShowLogsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public service: MastermindService) { }
+
+  logs: string[] = [];
 
   ngOnInit(): void {
+    this.service.onHttpRequest.subscribe(value => {
+      this.logs.push(value)
+    })
   }
 
 }

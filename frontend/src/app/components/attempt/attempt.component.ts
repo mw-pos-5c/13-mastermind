@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import HistoryAttempt from "../../models/HistoryAttempt";
 
 @Component({
   selector: 'app-attempt',
@@ -8,7 +9,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class AttemptComponent implements OnInit {
 
   @Input() availableColors: string[] = [];
-  @Input() selectedColors: string[] = [];
+  @Input() selectedColors: HistoryAttempt | null = null;
   @Output() colorChosen = new EventEmitter<string[]>()
 
   colors: string[] = ['', '', '', ''];
@@ -18,9 +19,9 @@ export class AttemptComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if (this.selectedColors.length == 4) {
+    if (this.selectedColors !== null && this.selectedColors.colors.length == 4) {
       this.interactive = false;
-      this.colors = this.selectedColors;
+      this.colors = this.selectedColors.colors;
     }
   }
 
@@ -37,7 +38,7 @@ export class AttemptComponent implements OnInit {
     if (!this.ready) return;
     this.colorChosen.emit(this.colors);
     this.colors = ['', '', '', ''];
-    this.ready = true;
+    this.ready = false;
   }
 
 }

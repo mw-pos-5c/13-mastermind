@@ -7,12 +7,20 @@
       {{i + 1}}. Attempt
     </div>
     <app-attempt [selectedColors]="attempt"></app-attempt>
+
+
   </div>
-  <div class="row">
-    <div class="col attempt">
-      {{service.gameHistory.length +1}}. Attempt
+  <div class="row" *ngIf="service.gameState === 1">
+    <div class="col">
+      {{service.gameHistory.length +1}}. Attempt ({{service.gameTries-service.gameHistory.length}} Left)
     </div>
     <app-attempt [availableColors]="service.gameColors" (colorChosen)="colorSelected($event)" ></app-attempt>
+  </div>
+  <div class="row" *ngIf="service.gameState === 2">
+    WINNER
+  </div>
+  <div class="row" *ngIf="service.gameState === 3">
+    SAD
   </div>
 </div>
 
