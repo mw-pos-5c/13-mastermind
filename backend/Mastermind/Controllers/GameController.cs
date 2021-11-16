@@ -42,5 +42,12 @@ namespace Mastermind.Controllers
         {
             return Ok(GameBoard.AvailableColors);
         }
+
+
+        [HttpGet("LoadGame")]
+        public IActionResult LoadGame(string gameId)
+        {
+            return Ok(service.LoadGame(gameId));
+        }
     }
 }

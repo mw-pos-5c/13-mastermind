@@ -13,19 +13,22 @@ namespace Mastermind
 
         public string Id { get; }
         public string Name { get; }
-        public int TriesLeft { get; private set; }
-        public int CorrectColors { get; private set; }
-        public int Correct { get; private set; }
 
+        public int MaxTries { get; }
+        public int Tries { get; set; }
+
+        public int TriesLeft => MaxTries - Tries;
+        
         public List<GuessAttempt> History { get; } = new();
 
         private readonly string[] solution;
 
-        public GameBoard(string id, string name, int triesLeft)
+        public GameBoard(string id, string name, int maxTries)
         {
             Id = id;
             Name = name;
-            TriesLeft = triesLeft;
+            MaxTries = maxTries;
+            Tries = 0;
 
             var random = new Random();
             solution = new string[4];
@@ -37,34 +40,37 @@ namespace Mastermind
             Console.WriteLine(string.Join(", ", solution));
         }
 
-        public void Guess(string[] guess)
+        public GuessAttempt Guess(string[] guess)
         {
-            if (TriesLeft == 0 || guess.Length != 4) return;
-            TriesLeft--;
+            if (TriesLeft <= 0 || guess.Length != 4) return null;
+            Tries++;
 
-            CorrectColors = 0;
-            Correct = 0;
+            var correctColors = 0;
+            var correct = 0;
 
             for (var x = 0; x < 4; x++)
             {
                 if (guess[x].Equals(solution[x]))
                 {
-                    Correct++;
+                    correct++;
                     continue;
                 }
 
                 if (solution.Contains(guess[x]))
                 {
-                    CorrectColors++;
+                    correctColors++;
                 }
             }
 
-            History.Add(new GuessAttempt
+            var attempt = new GuessAttempt
             {
                 Colors = guess,
-                Correct = Correct,
-                CorrectColor = CorrectColors
-            });
+                Correct = correct,
+                CorrectColor = correctColors
+            };
+            
+            History.Add(attempt);
+            return attempt;
         }
     }
 }

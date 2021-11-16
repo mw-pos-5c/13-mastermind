@@ -10,6 +10,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private service: MastermindService) { }
 
+  gameId: string = '';
 
   ngOnInit(): void {
 
@@ -18,5 +19,9 @@ export class NavbarComponent implements OnInit {
   reset() {
     this.service.gameHistory = [];
     this.service.gameState = 0;
+  }
+
+  resumeGame() {
+      this.service.loadGame(this.gameId);
   }
 }

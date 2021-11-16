@@ -4,6 +4,7 @@ import NewGameResponse from "../models/NewGameResponse";
 import HistoryAttempt from "../models/HistoryAttempt";
 import SubmitResponse from "../models/SubmitResponse";
 import {Subject} from "rxjs";
+import LoadGameResponse from "../models/LoadGameResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,18 @@ export class MastermindService {
   getAvailableColors() {
     this.http.get<string[]>(this.url + 'getAvailableColors').subscribe(value => {
       this.gameColors = value;
+    })
+  }
+
+  loadGame(id: string) {
+    this.getAvailableColors();
+    this.http.get<LoadGameResponse>(this.url + 'loadGame?gameId=' + id).subscribe(value => {
+      this.gameId = value.id;
+      this.gameTries = value.tries;
+      this.gameName = value.name;
+      this.gameHistory = value.history;
+      this.gameState = 1;
+
     })
   }
 

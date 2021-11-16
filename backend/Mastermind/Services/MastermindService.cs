@@ -36,13 +36,26 @@ namespace Mastermind.Services
         {
             if (!games.TryGetValue(id, out GameBoard board)) return null;
 
-            board.Guess(colors);
+            GuessAttempt attempt = board.Guess(colors);
             return new SubmitResponseDto
             {
-                Correct = board.Correct,
-                CorrectColor = board.CorrectColors
+                Correct = attempt?.Correct ?? 0,
+                CorrectColor = attempt?.CorrectColor ?? 0
             };
 
+        }
+
+        public LoadGameResponseDto LoadGame(string id)
+        {
+            if (!games.TryGetValue(id, out GameBoard board)) return null;
+
+            return new LoadGameResponseDto
+            {
+                Id = board.Id,
+                Name = board.Name,
+                Tries = board.MaxTries,
+                History = board.History
+            };
         }
     }
 }
